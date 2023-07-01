@@ -1,14 +1,20 @@
+import { atom, useAtom } from "jotai";
 import { Suspense } from "react";
 import "./App.css";
 
+const dataAtom = atom(1);
+
 function Component1(): JSX.Element {
+  const [data, setData] = useAtom(dataAtom);
+
   return (
     <div>
       <div>data is </div>
-      <div>not yet</div>
+      <div>{data}</div>
       <button
         onClick={(e) => {
           e.preventDefault();
+          setData((d) => d + 1);
         }}
       >
         get data
@@ -20,7 +26,9 @@ function Component1(): JSX.Element {
 function App() {
   return (
     <Suspense fallback={<div>suspended</div>}>
-      <Component1 />
+      <div className="app">
+        <Component1 />
+      </div>
     </Suspense>
   );
 }
