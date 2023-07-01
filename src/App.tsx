@@ -3,9 +3,15 @@ import { Suspense } from "react";
 import "./App.css";
 
 const dataAtom = atom(1);
+const derivedDataAtom = atom(
+  (get) => get(dataAtom),
+  (get, set, update: number) => {
+    set(dataAtom, get(dataAtom) + update);
+  }
+);
 
 function Component1(): JSX.Element {
-  const [data, setData] = useAtom(dataAtom);
+  const [data, setData] = useAtom(derivedDataAtom);
 
   return (
     <div>
@@ -14,7 +20,7 @@ function Component1(): JSX.Element {
       <button
         onClick={(e) => {
           e.preventDefault();
-          setData((d) => d + 1);
+          setData(100);
         }}
       >
         get data
