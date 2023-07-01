@@ -2,7 +2,19 @@ import { Suspense } from "react";
 import "./App.css";
 
 function Component1(): JSX.Element {
-  throw new Promise(() => {});
+  return (
+    <div>
+      <div>data is </div>
+      <div>not yet</div>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
+        get data
+      </button>
+    </div>
+  );
 }
 
 function App() {
