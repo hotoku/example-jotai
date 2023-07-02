@@ -37,9 +37,8 @@ const ListMain = () => {
         ))}
       </ul>
       <button
-        onClick={async (e) => {
-          e.preventDefault();
-          await setList();
+        onClick={(e) => {
+          throw sleep(1000);
         }}
       >
         update
