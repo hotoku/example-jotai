@@ -1,18 +1,24 @@
 import { atom, useAtom } from "jotai";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import "./App.css";
+
+async function download(): Promise<number> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return 1;
+}
 
 const dataAtom = atom(1);
 const derivedDataAtom = atom(
-  (get) => get(dataAtom),
-  (get, set, update: number) => {
-    set(dataAtom, get(dataAtom) + update);
+  async (get) => get(dataAtom),
+  async (get, set) => {
+    set(dataAtom, get(dataAtom) + (await download()));
   }
 );
 
 function Component1(): JSX.Element {
+  console.log("render Component1");
+  const [_, setClick] = useState({});
   const [data, setData] = useAtom(derivedDataAtom);
-
   return (
     <div>
       <div>data is </div>
@@ -20,7 +26,9 @@ function Component1(): JSX.Element {
       <button
         onClick={(e) => {
           e.preventDefault();
-          setData(100);
+          console.log("click");
+          setData();
+          setClick({});
         }}
       >
         get data
