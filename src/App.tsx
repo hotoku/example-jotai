@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import "./App.css";
 
 function sleep(ms: number): Promise<void> {
@@ -28,7 +28,7 @@ const wrappedListAtom = atom(
 );
 
 const ListMain = () => {
-  const [list, setList] = useAtom(wrappedListAtom);
+  const [loading, setLoading] = useState(false);
   return (
     <div className="app">
       <ul>
