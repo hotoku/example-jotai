@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { atom, useAtom } from "jotai";
+import { Suspense, useEffect, useState } from "react";
 import "./App.css";
 
 function sleep(ms: number): Promise<void> {
@@ -10,15 +11,17 @@ async function download(): Promise<number[]> {
   return [1, 2, 3];
 }
 
-function Comp(): JSX.Element {
-  const [val, setVal] = useState<number[] | undefined>(undefined);
+const valAtom = atom<number[] | undefined>(undefined);
+
+function Comp1(): JSX.Element {
+  const [val, setVal] = useAtom(valAtom);
 
   useEffect(() => {
     download().then((d) => setVal(d));
   }, []);
 
   if (val === undefined) {
-    return <div>loading</div>;
+    throw nothing;
   }
   return (
     <div>
@@ -32,8 +35,9 @@ function Comp(): JSX.Element {
 function App(): JSX.Element {
   return (
     <div className="app">
-      {" "}
-      <Comp />
+      <Suspense>
+        <Comp1 />
+      </Suspense>
     </div>
   );
 }
