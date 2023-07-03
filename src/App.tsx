@@ -21,7 +21,7 @@ function Comp1(): JSX.Element {
   }, []);
 
   if (val === undefined) {
-    throw nothing;
+    return <div>loading</div>;
   }
   return (
     <div>
@@ -32,11 +32,16 @@ function Comp1(): JSX.Element {
   );
 }
 
+function Comp2(): JSX.Element {
+  return <button>download</button>;
+}
+
 function App(): JSX.Element {
   return (
     <div className="app">
       <Suspense>
         <Comp1 />
+        <Comp2 />
       </Suspense>
     </div>
   );
