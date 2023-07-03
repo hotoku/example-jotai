@@ -1,5 +1,4 @@
-import { atom, useAtom } from "jotai";
-import { Suspense, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function sleep(ms: number): Promise<void> {
@@ -11,46 +10,32 @@ async function download(): Promise<number[]> {
   return [1, 2, 3];
 }
 
-const listAtom = atom([1, 2, 3]);
-const wrappedListAtom = atom(
-  (get) => {
-    return get(listAtom);
-  },
-  async (get, set) => {
-    const x = await download();
-    const v = get(listAtom);
-    const ret: number[] = [];
-    for (let i in x) {
-      ret.push(x[i] + v[i]);
-    }
-    set(listAtom, ret);
-  }
-);
+function Comp(): JSX.Element {
+  const [val, setVal] = useState<number[] | undefined>(undefined);
 
-const ListMain = () => {
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    download().then((d) => setVal(d));
+  }, []);
+
+  if (val === undefined) {
+    return <div>loading</div>;
+  }
   return (
-    <div className="app">
-      <ul>
-        {list.map((item, i) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
-      <button
-        onClick={(e) => {
-          throw sleep(1000);
-        }}
-      >
-        update
-      </button>
+    <div>
+      {val.map((v) => (
+        <div>{v}</div>
+      ))}
     </div>
   );
-};
+}
 
-const App = () => (
-  <Suspense fallback="loading...">
-    <ListMain />
-  </Suspense>
-);
+function App(): JSX.Element {
+  return (
+    <div className="app">
+      {" "}
+      <Comp />
+    </div>
+  );
+}
 
 export default App;
