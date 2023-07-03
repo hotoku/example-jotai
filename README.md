@@ -28,7 +28,7 @@ const asyncAtom = atom(
 値を保持する`PrimitiveAtom`の`valAtom`と、それを参照する`asyncAtom`を定義している。
 
 ※ `valAtom`は`Promise<number> | undefined`なので、`await get(valAtom)`
-でコンパイルエラーが出るかと思ったが出なかった。jotaiがケアしてくれている？
+でコンパイルエラーが出るかと思ったが出なかった。`await undefined`は`undefined`を返すようだ
 
 ### 値の表示
 
